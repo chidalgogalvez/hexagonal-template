@@ -19,26 +19,37 @@ export class AppLogger {
     return AppLogger.instance;
   }
 
+  private formattedArgs(args: any[]) {
+    const formattedArgs = args.map((arg) =>
+      typeof arg === 'object' ? JSON.stringify(arg, null, 2) : arg
+    );
+
+    return formattedArgs.join(', ');
+  }
+
   // Métodos de registro del logger
   public info(message: any, ...args: any[]) {
-    this._logger.info(message, ...args);
+    const finalMessage = `${message} ${this.formattedArgs(args)}`;
+    this._logger.info(finalMessage);
   }
 
   public error(message: any, ...args: any[]) {
-    this._logger.error(message, ...args);
+    const finalMessage = `${message} ${this.formattedArgs(args)}`;
+    this._logger.error(finalMessage);
   }
 
   public debug(message: any, ...args: any[]) {
-    this._logger.debug(message, ...args);
+    const finalMessage = `${message} ${this.formattedArgs(args)}`;
+    this._logger.debug(finalMessage);
   }
 
   public warn(message: any, ...args: any[]) {
-    this._logger.warn(message, args);
+    const finalMessage = `${message} ${this.formattedArgs(args)}`;
+    this._logger.warn(finalMessage);
   }
 }
 
 // Aquí instanciamos AppLogger con opciones específicas y exportamos la instancia como Logger
-
 export const Logger = AppLogger.getInstance({
   ...baseLoggerOptions,
   transports: [consoleTransport],
